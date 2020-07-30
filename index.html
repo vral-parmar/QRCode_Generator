@@ -13,30 +13,28 @@
           background-color: #008CBA;
           border: none;
           color: white;
-          padding: 12px;
+          padding: 10px;
           text-align: center;
           text-decoration: none;
           display: inline-block;
           font-size: 13px;
-          margin: 1px 1px;
           cursor: pointer;
           border-radius: 10px;
         }
         input[type=text], select {
           padding: 8px 20px;
-          margin: 8px 0;
           display: inline-block;
           border: 1px solid #ccc;
           border-radius: 4px;
           box-sizing: border-box;
         }
         .footer {
-           position: fixed;
            left: 0;
            bottom: 0;
            width: 100%;
            text-align: center;
         }
+
     </style>
 </head>
 <body>
@@ -47,16 +45,23 @@
                     <small>Enter URL to Generate a QR Code</small>
                     <p><input type="text" name="txt" required="required"/></p>
                     <small>Size : <select name="size">
-                    <option value="100x100" selected>100x100</option>
-                    <option value="200x200">200x200</option>
-                    <option value="300x300" >300x300</option>
+                    <option value="50x50">50 x 50</option>
+                    <option value="100x100" selected>100 x 100</option>
+                    <option value="200x200">200 x 200</option>
+                    <option value="300x300" >300 x 300</option>
+                    <option value="400x400" >400 x 400</option>
+                    <option value="500x500" >500 x 500</option>
                     </select>&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" class="style" value="Generate" id="qr-gn" placeholder="Enter An URL"/></small>
-                </div>
+                </div><br>
                     <div id="qrcode">
                     </div>
+                    <br>
+                    <button onclick="download_image()" class="download style" style="display:none">
+Download QR
+</button>
         </div>
-    </div>
+    </div><br>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript" src="jquery.qrcode.min.js"></script>
     <script type="text/javascript">
@@ -78,7 +83,25 @@
        function generateQRcode(width, height, text) {
           $('#qrcode').qrcode({width: width,height: height,text: text});
        }
+       $("#qr-gn").click(function(){
+           $('canvas').attr("id", "canv");
+            $('.download').css('display','block');
+        });
     });
+    var c=document.getElementById("canv");
+    var ctx=c.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(100,75,50,0,2*Math.PI);
+    ctx.stroke();
+
+    function download_image(){
+      var canvas = document.getElementById("canv");
+      image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+      var link = document.createElement('a');
+      link.download = "my-image.jpeg";
+      link.href = image;
+      link.click();
+    }
     </script>
     <footer class="footer">
         <div align="center">
